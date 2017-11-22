@@ -20,6 +20,16 @@ export const getRepoList = async (user) => {
   });
 }
 
+export const getReposContributorsList = async (repo) => {
+  if(!repo || !repo.contributors_url) {
+    return Promise.reject();
+  }
+
+  return await axios.get(repo.contributors_url).then(contributors => {
+    return contributors.data;
+  });
+}
+
 export const getUsersRepoList = async(input) => {
   let users = {
     items: [{}]
