@@ -1,31 +1,32 @@
 import React, { Component } from 'react';
-import Searchfield from 'components/Searchfield';
+import SearchField from 'components/SearchField';
+import SearchResults from 'components/SearchResults';
 import LineChart from 'components/LineChart';
-import debounce from 'debounce-promise';
 import contributorsChartOptions from 'utils/contributorsChartOptions';
-import {getReposContributorsList, getUsersRepoList} from 'api';
+import {niceErrorHandling, getSearchedUsersRepoList, getReposContributorsList} from 'api';
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      search: '',
+      repos: [],
+      errors: null,
       repo: undefined,
       contributors: [],
       options: contributorsChartOptions,
       chart: undefined
     };
-  }
-  getPropertyOfObject(array, property) {
-    return array.map(item => {
-      return item[property];
-    });
+
+    niceErrorHandling();
   }
   formatContributorsData(contributors) {
     this.setState({
       chart: {
         labels: contributors.map(c => c.login),
         datasets: [{
-          data: contributors.map(c => c.contributions)
+          data: contributors.map(c => c.contributions),
+          fill: false
         }]
       }
     });
@@ -40,19 +41,43 @@ class HomePage extends Component {
   }
   onChange = (repo) => {
     this.setState({
-      repo: repo
+      repo: repo,
+      repos: []
     });
     this.loadContributors(repo);
+  }
+  searchUpdated = async (search) => {
+    if(!search) {
+      return;
+    }
+    try {
+      this.setState({
+        repos: await getSearchedUsersRepoList(search)
+      });
+    } catch(e) {
+      this.setState({
+        repos: [],
+        errors: e
+      });
+    }
   }
   render() {
     return (
       <div className="HomePage">
-        <Searchfield valueKey="id" resetInput={false} labelKey="name" onChange={this.onChange} loadOptions={debounce(getUsersRepoList, 300)} />
+        <SearchField placeholder="Search for github username.." onChange={this.searchUpdated} />
+        <SearchResults onSelect={this.onChange} data={this.state.repos} valueLabel="name" keyLabel="id" />
+
+        {this.state.repos < 0 || this.state.errors &&
+          <div className="SearchResults-empty">
+            {this.state.errors}
+          </div>
+        }
+
         {this.state.repo &&
-          <h1>{this.state.repo.name}</h1>
+          <h2>{this.state.repo.name}</h2>
         }
         {this.state.chart &&
-          <LineChart data={this.state.chart} options={this.state.options} width={100} height={30} />
+          <LineChart data={this.state.chart} options={this.state.options} />
         }
       </div>
     );

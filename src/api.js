@@ -1,48 +1,52 @@
 import axios from 'axios';
 
-export const getUserList = async(input) => {
+export const niceErrorHandling = () => {
+  axios.interceptors.response.use(function (response) {
+    return response;
+  }, function (error) {
+    return Promise.reject(error.response.data.message);
+  });
+}
+export const searchUserLogins = (input) => {
   if (!input) {
-    return Promise.reject([]);
+    return Promise.reject("No search value given");
   }
 
-  return await axios.get('https://api.github.com/search/users?q='+ input +'+in:login').then(userRequest => {
+  return axios.get('https://api.github.com/search/users?q='+ input +'+in:login').then(userRequest => {
     return userRequest.data;
   });
 }
 
-export const getRepoList = async (user) => {
-  if(!user || !user.repos_url) {
-    return Promise.reject();
-  }
-
-  return await axios.get(user.repos_url).then(repos => {
-    return repos.data;
-  });
-}
-
-export const getReposContributorsList = async (repo) => {
+export const getReposContributorsList = (repo) => {
   if(!repo || !repo.contributors_url) {
     return Promise.reject();
   }
 
-  return await axios.get(repo.contributors_url).then(contributors => {
+  return axios.get(repo.contributors_url).then(contributors => {
     return contributors.data;
   });
 }
 
-export const getUsersRepoList = async(input) => {
+export const getUsersRepoList = (user) => {
+  if(!user || !user.repos_url) {
+    return Promise.reject();
+  }
+
+  return axios.get(user.repos_url).then(repos => {
+    return repos.data;
+  });
+}
+
+export const getSearchedUsersRepoList = async (input) => {
   let users = {
     items: [{}]
   };
 
-  users = await getUserList(input);
+  users = await searchUserLogins(input);
 
-  if(users.items[0].login == input) {
-    return getRepoList(users.items[0])
-      .then(repos => {
-        return {options: repos};
-      });
+  if(users.items.length && users.items[0].login === input) {
+    return getUsersRepoList(users.items[0]);
   }
 
-  return Promise.resolve({options: [] });
+  return Promise.reject("These are not the repos you are looking for");
 }

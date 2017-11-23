@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+import React from 'react';
+import SearchInput from 'react-search-input'
+import './SearchField.css';
 
-const Searchfield = ({value, labelKey, resetInput, loadOptions, onChange}) => (
-  <div className="Searchfield">
-    <Select.Async value={value} onSelectResetsInput={resetInput} onCloseResetsInput={resetInput} onBlurResetsInput={resetInput} labelKey={labelKey} onChange={onChange} loadOptions={loadOptions} />
+const SearchField = ({value, placeholder, onChange}) => (
+  <div className="SearchField">
+    <SearchInput placeholder={placeholder} className="SearchField-input" throttle={300} onChange={onChange} />
   </div>
 );
 
-export default Searchfield;
+export default SearchField;
