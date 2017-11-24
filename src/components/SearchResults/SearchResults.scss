@@ -1,0 +1,30 @@
+$visible-results: 5;
+$color-primary: #e0fae7;
+$search-width: 640px;
+$search-icon-width: 32px;
+$search-height: 40px;
+
+// ',' is needed - no clue why single selector won´t be injected
+.SearchResults, {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  z-index: 999;
+  width: $search-width - $search-icon-width;
+  max-height: $search-height * $visible-results;
+  overflow: scroll;
+  margin-left: $search-icon-width;
+  text-align: left;
+
+  .SearchResults-item {
+    padding: 10px;
+    height: $search-height;
+    background-color: $color-primary;
+    font-weight: bold;
+    &:hover {
+      background-color: darken($color-primary, 7%);
+      cursor: pointer;
+    }
+  }
+}

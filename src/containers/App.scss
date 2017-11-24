@@ -1,16 +1,33 @@
 body, html {
+  color: #333;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-}
-
-.App {
-  margin: 0 auto;
-  max-width: 1280px;
   width: 100%;
 }
 
-// Force Canvas to hold parent dimensions
-.App div {
-  max-width: 100%;
-  max-height: 100%;
+* {
+  box-sizing: border-box;
+}
+
+.HomePage-content {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 20px;
+  width: 100%;
+}
+
+.HomePage-search {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 20px;
+  width: 100%;
+}
+
+.App-title {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 640px;
+  width: 100%;
 }

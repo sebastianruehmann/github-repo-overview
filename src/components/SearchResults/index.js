@@ -1,15 +1,17 @@
 import React from 'react';
+import './SearchResults.css';
 
 const SearchResults = ({data, keyLabel, valueLabel, onSelect}) => (
-  <div className="SearchResults">
+  <ul className="SearchResults">
+    {console.log(data)}
     {data.map(result => {
       return (
-        <div key={result[keyLabel]} onClick={() => { onSelect(result) }}>
+        <li className="SearchResults-item" key={result[keyLabel]} onClick={() => { onSelect(result) }}>
           {result[valueLabel]}
-        </div>
+        </li>
       )
     })}
-  </div>
+  </ul>
 );
 
 export default SearchResults;

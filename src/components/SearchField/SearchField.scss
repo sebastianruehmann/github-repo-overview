@@ -1,0 +1,43 @@
+$visible-results: 5;
+$color-primary: #9BC788;
+$search-width: 640px;
+$search-icon-width: 32px;
+$search-height: 40px;
+
+.SearchField {
+  background-color: #f2f2f2;
+  height: $search-height;
+  position: relative;
+  width: $search-width;
+
+  .SearchField-icon {
+    float: left;
+    width: $search-icon-width;
+    height: $search-height;
+    padding: 6px 8px 7px;
+
+    img {
+      height: 100%;
+    }
+  }
+  input[type="search"]::-webkit-search-decoration,
+  input[type="search"]::-webkit-search-cancel-button,
+  input[type="search"]::-webkit-search-results-button,
+  input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+  }
+  input {
+    width: $search-width - $search-icon-width;
+    height: $search-height;
+    font-size: 1em;
+    appearance: none;
+    background-color: transparent;
+    border-radius: 3px;
+    border: none;
+    padding: 10px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

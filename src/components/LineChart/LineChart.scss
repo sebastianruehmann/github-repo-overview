@@ -1,0 +1,5 @@
+// Force Canvas to hold parent dimensions
+.LineChart > div {
+  max-width: 100%;
+  max-height: 100%;
+}
