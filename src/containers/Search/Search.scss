@@ -1,0 +1,32 @@
+$search-width: 590px;
+$search-wrapper-width: 640px;
+$search-height: 40px;
+$search-icon-width: 32px;
+
+.SearchWrapper {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: $search-wrapper-width;
+  position: relative;
+  width: 100%;
+}
+
+.SearchField-reset {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: $search-icon-width;
+  height: $search-height;
+  padding: 12px 8px;
+  z-index: 1000;
+
+  img {
+    height: 100%;
+    width: auto;
+  }
+}
+
+.SearchResults-error {
+  padding-top: 10px;
+}
