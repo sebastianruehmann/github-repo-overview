@@ -9,6 +9,9 @@ export default {
       scaleLabel: {
         display: true,
         labelString: 'Users'
+      },
+      ticks: {
+        autoSkip: false
       }
     }],
     yAxes: [{
@@ -16,6 +19,9 @@ export default {
       scaleLabel: {
         display: true,
         labelString: 'Number of contributions'
+      },
+      ticks: {
+        beginAtZero: true
       }
     }]
   }
