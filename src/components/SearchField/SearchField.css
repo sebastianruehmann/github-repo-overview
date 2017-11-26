@@ -2,7 +2,8 @@
   background-color: #f2f2f2;
   height: 40px;
   position: relative;
-  width: 640px; }
+  max-width: 640px;
+  width: 100%; }
   .SearchField .SearchField-icon {
     float: left;
     width: 32px;
@@ -16,7 +17,8 @@
   .SearchField input[type="search"]::-webkit-search-results-decoration {
     display: none; }
   .SearchField input {
-    width: 608px;
+    max-width: 608px;
+    width: calc(100% - 32px);
     height: 40px;
     font-size: 1em;
     appearance: none;

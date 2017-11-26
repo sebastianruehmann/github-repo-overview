@@ -11,6 +11,7 @@ export default {
         labelString: 'Users'
       },
       ticks: {
+        fontFamily: "Roboto",
         autoSkip: false
       }
     }],
@@ -21,6 +22,7 @@ export default {
         labelString: 'Number of contributions'
       },
       ticks: {
+        fontFamily: "Roboto",
         beginAtZero: true
       }
     }]

@@ -4,12 +4,12 @@ export const niceErrorHandling = () => {
   axios.interceptors.response.use(function (response) {
     return response;
   }, function (error) {
-    return Promise.reject(error.response.data.message);
+    return Promise.reject({ type: error.status, message: error.response.data.message });
   });
 }
 export const searchUserLogins = (input) => {
   if (!input) {
-    return Promise.reject("No search value given");
+    return Promise.reject({ type: 'NO_SEARCH_VALUE', message: 'No search value given' });
   }
 
   return axios.get('https://api.github.com/search/users?q='+ input +'+in:login').then(userRequest => {
@@ -29,7 +29,7 @@ export const getReposContributorsList = (repo) => {
 
 export const getUsersRepoList = (user) => {
   if(!user || !user.repos_url) {
-    return Promise.reject();
+    return Promise.reject({ type: 'NO_USER_GIVEN', message: 'Please enter a username' });
   }
 
   return axios.get(user.repos_url).then(repos => {
@@ -48,5 +48,5 @@ export const getSearchedUsersRepoList = async (input) => {
     return getUsersRepoList(users.items[0]);
   }
 
-  return Promise.reject("These are not the repos you are looking for");
+  return Promise.reject({ type: 'NO_USER_FOUND', message: 'These are not the repos you are looking for' });
 }

@@ -2,15 +2,17 @@ import React, { Component } from 'react';
 import Search from 'containers/Search';
 import LineChart from 'components/LineChart';
 import contributorsChartOptions from 'utils/contributorsChartOptions';
-import {niceErrorHandling, getSearchedUsersRepoList, getReposContributorsList} from 'api';
+import { niceErrorHandling, getSearchedUsersRepoList, getReposContributorsList } from 'api';
+import './HomePage.css';
+import kenobi from 'images/kenobi.png';
 
 const initialState = {
   repos: [],
-  repo: undefined,
+  repo: null,
   contributors: [],
   options: contributorsChartOptions,
-  chart: undefined,
-  error: ''
+  chart: null,
+  error: null
 };
 
 class HomePage extends Component {
@@ -21,27 +23,31 @@ class HomePage extends Component {
     niceErrorHandling();
   }
   formatContributorsData(contributors) {
-    this.setState({
-      chart: {
-        labels: (Array.isArray(contributors)) ? contributors.map(c => c.login) : contributors,
-        datasets: [{
-          data: (Array.isArray(contributors)) ? contributors.map(c => c.contributions) : contributors,
-          fill: false
-        }]
-      }
-    });
+    return {
+      labels: (Array.isArray(contributors)) ? contributors.map(c => c.login) : [],
+      datasets: [{
+        data: (Array.isArray(contributors)) ? contributors.map(c => c.contributions) : [],
+        fill: false
+      }]
+    };
+  }
+  formatUserNotFoundError(error) {
+    return error.message = '<div class="SearchResults-error-noUser">' +
+      '<img src="' + kenobi +'" height="50"/><span>“' + error.message + '”</span>' +
+      '</div>';
   }
   async loadContributors(repo) {
     let contributors = [];
     contributors = await getReposContributorsList(repo);
-    this.formatContributorsData(contributors);
+    const chart = this.formatContributorsData(contributors);
     this.setState({
-      contributors: contributors
+      contributors,
+      chart
     });
   }
-  onSelect = (repo) => {
+  onSelect = repo => {
     this.setState({
-      repo: repo,
+      repo,
       repos: []
     });
     this.loadContributors(repo);
@@ -49,13 +55,16 @@ class HomePage extends Component {
   onSearchUpdated = async (search) => {
     try {
       this.setState({
-        error: '',
+        error: null,
         repos: await getSearchedUsersRepoList(search)
       });
-    } catch(e) {
+    } catch(error) {
+      if(error.type === 'NO_USER_FOUND') {
+        error.message = this.formatUserNotFoundError(error);
+      }
       this.setState({
-        repos: [],
-        error: e
+        error: error.message,
+        repos: []
       });
     }
   }
@@ -66,7 +75,8 @@ class HomePage extends Component {
     return (
       <div className="HomePage">
         <div className="HomePage-search">
-          <Search results={this.state.repos}
+          <Search
+            results={this.state.repos}
             placeholder="Search for github username.."
             onSearchUpdated={this.onSearchUpdated}
             onSearchReseted={this.onSearchReseted}
@@ -74,7 +84,6 @@ class HomePage extends Component {
             valueLabel="name"
             keyLabel="id"
             error={this.state.error}
-            noResultsMsg="No Repos"
           />
         </div>
         <div className="HomePage-content">

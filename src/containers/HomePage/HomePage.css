@@ -1,0 +1,13 @@
+.HomePage-content,
+.HomePage-search {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 10px;
+  width: 100%; }
+
+.SearchResults-error-noUser img {
+  padding: 5px;
+  vertical-align: middle; }
+
+.SearchResults-error-noUser span {
+  text-decoration: italic; }

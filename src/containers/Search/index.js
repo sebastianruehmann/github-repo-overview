@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import SearchField from 'components/SearchField';
 import SearchResults from 'components/SearchResults';
-import './Search.css';
 import cancel from 'images/cancel.svg';
+import './Search.css';
 
 const initialState = {
-    search: ''
+    search: ""
 }
 
 class Search extends Component {
@@ -13,7 +13,7 @@ class Search extends Component {
     super(props);
     this.state = initialState;
   }
-  onSearchUpdated = (search) => {
+  onSearchUpdated = search => {
     this.setState({
       search: search
     });
@@ -36,11 +36,8 @@ class Search extends Component {
           </span>
         }
         <SearchResults onSelect={this.props.onSelect} data={this.props.results} valueLabel={this.props.valueLabel} keyLabel={this.props.keyLabel} />
-
-        {this.props.results < 0 || this.props.error &&
-          <div className="SearchResults-error">
-            {this.props.error || this.props.noResultsMsg}
-          </div>
+        {this.props.error &&
+          <div className="SearchResults-error" dangerouslySetInnerHTML={{ __html: this.props.error }} />
         }
       </div>
     );

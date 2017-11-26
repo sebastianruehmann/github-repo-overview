@@ -9,20 +9,12 @@ body, html {
 * {
   box-sizing: border-box; }
 
-.HomePage-content {
-  margin: 0 auto;
-  max-width: 1280px;
-  padding: 20px;
-  width: 100%; }
-
-.HomePage-search {
-  margin: 0 auto;
-  max-width: 1280px;
-  padding: 20px;
-  width: 100%; }
+.App-header {
+  padding: 10px; }
 
 .App-title {
   margin-left: auto;
   margin-right: auto;
+  margin-bottom: 0;
   max-width: 640px;
   width: 100%; }
