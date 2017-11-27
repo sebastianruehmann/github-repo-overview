@@ -1,5 +1,6 @@
 import React from 'react';
 import './SearchResults.css';
+import propTypes from 'prop-types';
 
 const SearchResults = ({
   data, keyLabel, valueLabel, onSelect
@@ -14,5 +15,13 @@ const SearchResults = ({
     })}
   </ul>
 );
+
+
+SearchResults.propTypes = {
+  data: propTypes.object,
+  keyLabel: propTypes.string,
+  valueLabel: propTypes.string,
+  onSelect: propTypes.func
+};
 
 export default SearchResults;

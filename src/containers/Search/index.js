@@ -3,6 +3,7 @@ import SearchField from 'components/SearchField';
 import SearchResults from 'components/SearchResults';
 import cancel from 'images/cancel.svg';
 import './Search.css';
+import propTypes from 'prop-types';
 
 const initialState = {
     search: ""
@@ -43,5 +44,16 @@ class Search extends Component {
     );
   }
 }
+
+SearchResults.propTypes = {
+  onSearchReseted: propTypes.func,
+  results: propTypes.array,
+  placeholder: propTypes.string,
+  onSearchUpdated: propTypes.func,
+  onSelect: propTypes.func,
+  valueLabel: propTypes.string,
+  keyLabel: propTypes.string,
+  error: propTypes.string
+};
 
 export default Search;
